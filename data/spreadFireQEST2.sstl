@@ -1,0 +1,67 @@
+const dsafe = 0;
+const delta = 5;
+const tend = 10;
+const tendF = 20;
+const tendG1 = 1;
+const tendG2 = 5;
+const tendG3 = 10;
+const tendG4 = 12;
+const tendG5 = 13;
+const tendG6 = 14;
+const tendG7 = 15;
+const d = 0;
+const dd = 20;
+
+variable O;		
+variable EM;
+variable NN;
+variable SS;
+variable OS;
+variable ON;
+variable B;
+variable I;
+variable SF;
+variable P;
+	
+formula presentO = {O>0};
+formula presentON = {ON>0};
+formula presentOS = {OS>0};
+formula presentEM = {EM>0};
+formula presentP = {P>0};
+formula presentNN = {NN>0};
+formula presentSS = {SS>0};
+
+formula occupied = presentO | presentON | presentOS;
+formula notOccupied = presentEM | presentNN | presentSS | presentP ;
+formula fire = {B>0};
+formula notFire = {I>0};
+
+formula empty = presentEM | presentNN | presentSS ;
+formula route = empty | occupied | presentP ;
+
+formula exit = \F[0,tend] route;
+
+formula safeRoute = notOccupied | notFire;
+formula fireRoute = occupied & fire;
+formula notfireRoute = !fireRoute;
+formula safeRouteTry = safeRoute & route;
+
+formula FExit = \F[0,tendF] outSomewhere;
+formula GSafe = \G[0,tend] safeRouteTry;
+
+formula TotalExit = safeRouteTry & FExit;
+
+formula GSafe1 = \G[0,tendG1] safeRouteTry;
+formula GSafe2 = \G[0,tendG2] safeRouteTry;
+formula GSafe3 = \G[0,tendG3] safeRouteTry;
+formula GSafe4 = \G[0,tendG4] safeRouteTry;
+formula GSafe5 = \G[0,tendG5] safeRouteTry;
+formula GSafe6 = \G[0,tendG6] safeRouteTry;
+formula GSafe7 = \G[0,tendG7] safeRouteTry;
+
+formula danger = occupied & fire;
+formula OccAndSafe = occupied & notfire;
+formula EmptyAndSafe = empty & notfire;
+formula RouteAndSafe = route & notfire;
+
+formula safe = OccAndSafe | EmptyAndSafe;

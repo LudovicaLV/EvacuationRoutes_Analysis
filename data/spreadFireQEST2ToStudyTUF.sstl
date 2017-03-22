@@ -1,0 +1,9 @@
+const dsafe = 0;
+const delta = 5;
+const tend = 20;
+
+
+variable B;
+variable I;
+
+formula fire = {B>0};
